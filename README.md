@@ -1,6 +1,32 @@
+# vpc-peering Module
+
+this repo containers a terraform module to allow the peering of two VPC's. 
+
+## How to use:
+
+```
+module "vpc_peering" {
+  source = "../vpc-peering"
+
+  account_id                 = data.aws_caller_identity.current.account_id
+  environment                = var.environment
+  primary_vpc_cidr           = data.aws_vpc.primary.cidr_block
+  primary_vpc_id             = data.aws_vpc.primary.id
+  primary_vpc_name           = data.aws_vpc.primary.name
+  secondary_vpc_cidr         = "172.20.0.0/16"
+  secondary_vpc_id           = module.vpc.vpc_id
+  secondary_vpc_name         = module.vpc.name
+  secondary_vpc_route_tables = module.vpc.private_route_table_ids
+  region                     = var.region
+}
+```
+
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
 
 ## Providers
 
@@ -39,4 +65,7 @@ No modules.
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_peering_id"></a> [peering\_id](#output\_peering\_id) | n/a |
+<!-- END_TF_DOCS -->
